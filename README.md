@@ -1,4 +1,3 @@
-# pfsense-enterprise-perimeter-defense
 
 # Enterprise Perimeter Defense: pfSense ACLs & Suricata IDS/IPS
 
