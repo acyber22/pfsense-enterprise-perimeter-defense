@@ -15,7 +15,7 @@ The environment utilizes a split network architecture separated by a pfSense 2.8
 
 Figure 1: Network Topology Diagram
 
- ## ⚙️ Phase 1: pfSense Firewall & ACL Configuration
+ ## Phase 1: pfSense Firewall & ACL Configuration
 
 Before building rulesets, IPv4 was strictly enforced by disabling IPv6 under **System > Advanced > Networking** and stripping IPv6 rules from the WAN and LAN interfaces
 
@@ -36,3 +36,31 @@ To verify policy enforcement, a Netcat listener was established on the Ubuntu se
 ![image alt](https://github.com/acyber22/pfsense-enterprise-perimeter-defense/blob/5a837cf7afc50089f95a3b4106d06faa3c452b8f/Traffic%20Analysis%20and%20Protcol%20Verification.png)
 
  Figure 2: Traffic Analysis and Protocol Verification
+
+ ![image alt](https://github.com/acyber22/pfsense-enterprise-perimeter-defense/blob/main/Active%20Client%20Traffic%20Generation.png)
+
+ Figure 3: Active Client Traffic Generation
+
+Since port 1337 was something I wanted to reject I went ahead and made a rule inside of the LAN interface. This rule was placed up higher in the ACL since it needed to be executed before others. After the creation I was no longer able to use telnet and was now receiving telnet: unable to connect to remote host connection refused. Inside of the Firewall Log Entries I was able to see that the rule rejected it.
+
+![image alt](https://github.com/acyber22/pfsense-enterprise-perimeter-defense/blob/main/Policy-Enforced%20TCP%20Reject%20on%20Port%201337.png)
+
+Figure 4: pfSense Firewall Log Entry Confirming a Policy-Enforced TCP Reject on Port 1337
+ 
+## Phase 2: Least-Privilege Hardening
+
+To transition away from a default-allow posture, the LAN interface was hardened using explicit egress filtering and destination-oriented aliases:
+
+* **`LAN_TCP_Outbound_Whitelist`:** Ports `22`, `53`, `80`, `443`
+* **`LAN_UDP_Outbound_Whitelist`:** Ports `53`, `123`
+* **Implicit Deny:** A final rule dropping all non-permitted outbound traffic from LAN subnets
+
+![image alt](https://github.com/acyber22/pfsense-enterprise-perimeter-defense/blob/main/Firewall%20LAN%20Interface.png)
+
+Figure 5: Hardened LAN Ruleset Matrix with TCP And UDP Alias Details
+
+
+
+## 🛡️ Phase 3: NIDS Implementation (Suricata)
+Following core firewall configurations, the **Suricata** package was deployed on pfSense to supply network-based intrusion detection and prevention capabilities
+
