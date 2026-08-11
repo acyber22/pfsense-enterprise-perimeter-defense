@@ -63,3 +63,4 @@ Figure 5: Hardened LAN Ruleset Matrix with TCP And UDP Alias Details
 ## 🛡️ Phase 3: NIDS Implementation (Suricata)
 Following core firewall configurations, the **Suricata** package was deployed on pfSense to supply network-based intrusion detection and prevention capabilities
 
+![image alt](https://github.com/acyber22/pfsense-enterprise-perimeter-defense/blob/main/Suricata%20configured.png)
