@@ -60,7 +60,6 @@ To transition away from a default-allow posture, the LAN interface was hardened 
 Figure 5: Hardened LAN Ruleset Matrix with TCP And UDP Alias Details
 
 
-
 ## 🛡️ Phase 3: NIDS Implementation (Suricata)
 Following core firewall configurations, the **Suricata** package was deployed on pfSense to supply network-based intrusion detection and prevention capabilities
 
